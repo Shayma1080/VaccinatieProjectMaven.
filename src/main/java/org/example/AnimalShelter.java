@@ -4,8 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class AnimalShelter {
-    private static List<Animal> animals= new ArrayList<>();
-    private static int animalId= 1;
+    private  List<Animal> animals= new ArrayList<>();
+    private  int animalId= 1;
 
     public AnimalShelter() {}
 
@@ -59,13 +59,13 @@ public class AnimalShelter {
     public void treatAnimal(int animalNumber){
         animalId+= animalNumber;
         animals.stream()
-                .filter(e->e.equals(animalNumber))
-                .forEach(e-> System.out.println(e));
+                .filter(e->e.getAnimalNumber() == animalNumber)
+                .forEach(Animal :: treatAnimal);
     }
     public void treatAnimal(String name){
         animals.stream()
-                .filter(e->e.isVaccinated.containsKey(name))
-                .forEach(e-> System.out.println(e));
+                .filter(e->e.getName().equals(name))
+                .forEach(Animal::treatAnimal);
     }
     public void treatAllAnimals(){
         animals.stream()
@@ -84,7 +84,7 @@ public class AnimalShelter {
                 .count();
     }
 
-    public static void addAnimal(Animal animal){
+    public  void addAnimal(Animal animal){
         animal.setAnimalNumber(animalId++);  // geeft het dier een uniek nummer
         animals.add(animal);
         //animalId++;
@@ -93,6 +93,11 @@ public class AnimalShelter {
 
     @Override
     public String toString() {
-        return super.toString();
+        StringBuilder sb = new StringBuilder();
+
+        for (Animal a : animals){
+            sb.append(a.getName()).append( " ").append(a.getAge());
+        }
+        return sb.toString();
     }
 }
